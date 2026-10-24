@@ -6,96 +6,58 @@
 <title>ВЫБОР ХОЗЯИНА ❤️</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-body{margin:0;background:#fff8f0;color:#382821;font-family:Arial,sans-serif}
-header{padding:26px 20px;background:#f1dfd1;border-radius:0 0 24px 24px}
-h1{font-size:27px;margin:8px 0}
-p{color:#826f65}
-main{padding:18px 14px 100px}
-#cats{display:flex;gap:8px;overflow:auto;margin-bottom:18px}
-button{font-size:15px;border:0;border-radius:12px;padding:11px;background:#a63d40;color:white}
-.cat{background:white;color:#382821;border:1px solid #e6d3c5;white-space:nowrap}
-.cat.active{background:#a63d40;color:white}
-#menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.dish{background:white;border-radius:16px;overflow:hidden}
-.photo{height:105px;display:grid;place-items:center;background:#f1dfd1;font-size:48px}
-.info{padding:11px}
-h3{font-size:16px;margin:0 0 7px}
-.info p{font-size:12px;min-height:28px}
-.price{font-weight:bold;margin:8px 0}
-.add{width:100%;padding:9px}
-#cart{margin-top:26px;background:white;padding:14px;border-radius:16px}
-.line{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #eee}
-.line button{padding:5px 10px}
-input,textarea{box-sizing:border-box;width:100%;padding:12px;margin:8px 0;border:1px solid #dfcbbd;border-radius:10px;font:inherit}
-#bottom{position:fixed;bottom:0;left:0;right:0;background:#fff8f0;padding:12px}
-#bottom button{width:100%;padding:15px}
-.small{font-size:12px}
+*{box-sizing:border-box}body{margin:0;background:#fff8f0;color:#382821;font-family:Arial,sans-serif}header{padding:25px 18px;background:#f1dfd1;border-radius:0 0 24px 24px}header div{font-size:13px;letter-spacing:1px}h1{font-size:26px;margin:10px 0}p{color:#826f65}main{padding:18px 14px 100px}h2{font-size:21px}button{font-size:14px;border:0;border-radius:12px;padding:11px;background:#a63d40;color:white;cursor:pointer}.wide{width:100%;margin-bottom:9px}.toolbar{display:flex;gap:8px}.toolbar button{flex:1}#cats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}.cat{background:white;color:#382821;border:1px solid #e6d3c5;text-align:left;min-height:46px}.cat.active{background:#a63d40;color:white}#menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dish{background:white;border-radius:16px;overflow:hidden;min-width:0}.photo{height:105px;display:grid;place-items:center;background:#f1dfd1;font-size:46px}.info{padding:10px}h3{font-size:15px;margin:0 0 7px}.info p{font-size:12px;min-height:30px;margin:7px 0}.price{font-weight:bold;margin:8px 0}.add,.heart{width:100%}.add{padding:9px}.heart{background:#fff0f0;color:#a63d40;margin-bottom:7px}#cart{margin-top:25px;background:white;padding:14px;border-radius:16px}.line{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #eee}.line button{padding:5px 9px}input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #dfcbbd;border-radius:10px;font:inherit}label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right:0;background:#fff8f0;padding:10px 12px}#bottom button{width:100%;padding:14px}.small{font-size:12px}
 </style>
 </head>
 <body>
-<header>
-<div>❤️ ПРИГОТОВЛЕНО С ЛЮБОВЬЮ</div>
-<h1>ВЫБОР ХОЗЯИНА 👑</h1>
-<p>Рома, сегодня выбираешь ты!</p>
-</header>
+<header><div>❤️ ПРИГОТОВЛЕНО С ЛЮБОВЬЮ</div><h1>ВЫБОР ХОЗЯИНА 👑</h1><p>Рома, сегодня выбираешь ты!</p></header>
 <main>
 <h2>Что будем готовить?</h2>
-<div id="cats"></div>
-<div id="menu"></div>
-<section id="cart">
-<h2>🛒 Твоя корзина</h2>
-<div id="items">Пока ничего не выбрано</div>
-<h3 id="total">Итого: 0 ₽</h3>
-<label>💌 Пожелания</label>
-<textarea id="wish" rows="3" placeholder="Побольше сыра, без лука..."></textarea>
-<label>⏰ К какому времени?</label>
-<input id="time" placeholder="Например, к 19:00">
-<button onclick="order()">Оформить заказ ❤️</button>
-<p id="result" class="small"></p>
-</section>
+<div class="toolbar"><button onclick="showFavorites()">❤️ Любимое</button><button onclick="surprise()">🎲 Удиви меня</button></div>
+<div id="cats"></div><div id="menu"></div>
+<section id="cart"><h2>🛒 Твоя корзина</h2><div id="items">Пока ничего не выбрано</div><h3 id="total">Итого: 0 ₽</h3><label>💌 Пожелания</label><textarea id="wish" rows="3" placeholder="Побольше сыра, без лука..."></textarea><label>⏰ К какому времени?</label><input id="time" placeholder="Например, к 19:00"><button class="wide" onclick="order()">Оформить заказ ❤️</button><p id="result" class="small"></p></section>
 </main>
 <div id="bottom"><button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛒 Корзина · <span id="count">0</span> · <span id="sum">0</span> ₽</button></div>
 <script>
+const categories=[['Завтраки','🍳'],['Сладкая выпечка','🥐'],['Солёная выпечка','🥧'],['Десерты','🍰'],['Курица','🍗'],['Морепродукты','🦐'],['Закуски','🥨'],['Салаты','🥗'],['Напитки','🥤'],['Мясо','🥩'],['Рыба','🐟'],['Основные блюда','🍽️']];
 const dishes=[
-{id:1,n:"Паста с курицей",c:"Ужин",p:350,e:"🍝",d:"Сливочный соус и сыр"},
-{id:2,n:"Домашние сырники",c:"Завтрак",p:200,e:"🥞",d:"Нежные, со сметаной"},
-{id:3,n:"Домашняя пицца",c:"Ужин",p:450,e:"🍕",d:"Много сыра и начинки"},
-{id:4,n:"Шоколадный десерт",c:"Десерт",p:180,e:"🍰",d:"Сладкое к чаю"},
-{id:5,n:"Картошка с мясом",c:"Ужин",p:400,e:"🥘",d:"Домашнее горячее"},
-{id:6,n:"Омлет",c:"Завтрак",p:180,e:"🍳",d:"Вкусный сытный завтрак"}
+{id:1,n:'Домашние сырники',c:'Завтраки',p:200,e:'🥞',d:'Нежные сырники со сметаной'},
+{id:2,n:'Омлет с сыром',c:'Завтраки',p:180,e:'🍳',d:'Пышный и сытный завтрак'},
+{id:3,n:'Блины',c:'Завтраки',p:180,e:'🥞',d:'Тонкие румяные блинчики'},
+{id:4,n:'Сладкие булочки',c:'Сладкая выпечка',p:150,e:'🥐',d:'Ароматные булочки к чаю'},
+{id:5,n:'Яблочный пирог',c:'Сладкая выпечка',p:250,e:'🥧',d:'Выпечка с яблоком'},
+{id:6,n:'Сырные булочки',c:'Солёная выпечка',p:200,e:'🥯',d:'Мягкие булочки с сыром'},
+{id:7,n:'Домашняя пицца',c:'Солёная выпечка',p:450,e:'🍕',d:'Много сыра и начинки'},
+{id:8,n:'Шоколадный десерт',c:'Десерты',p:180,e:'🍰',d:'Сладкое к чаю'},
+{id:9,n:'Панкейки',c:'Десерты',p:220,e:'🥞',d:'Пышные и нежные'},
+{id:10,n:'Курица в сливочном соусе',c:'Курица',p:380,e:'🍗',d:'Нежная курица в соусе'},
+{id:11,n:'Курица с картофелем',c:'Курица',p:400,e:'🍗',d:'Сытное горячее блюдо'},
+{id:12,n:'Креветки с чесноком',c:'Морепродукты',p:450,e:'🦐',d:'Ароматные креветки'},
+{id:13,n:'Морской коктейль',c:'Морепродукты',p:480,e:'🦑',d:'Морепродукты с зеленью'},
+{id:14,n:'Горячие бутерброды',c:'Закуски',p:180,e:'🥪',d:'С сыром и хрустящей корочкой'},
+{id:15,n:'Сырная тарелка',c:'Закуски',p:300,e:'🧀',d:'Разные виды сыра'},
+{id:16,n:'Салат Цезарь',c:'Салаты',p:320,e:'🥗',d:'Курица, салат и соус'},
+{id:17,n:'Греческий салат',c:'Салаты',p:280,e:'🥗',d:'Овощи, сыр и оливки'},
+{id:18,n:'Домашний лимонад',c:'Напитки',p:120,e:'🍋',d:'Освежающий напиток'},
+{id:19,n:'Какао',c:'Напитки',p:100,e:'☕',d:'Тёплый шоколадный напиток'},
+{id:20,n:'Мясные тефтели',c:'Мясо',p:350,e:'🍖',d:'Сочные домашние тефтели'},
+{id:21,n:'Мясо с картофелем',c:'Мясо',p:400,e:'🥘',d:'Домашнее горячее'},
+{id:22,n:'Запечённая рыба',c:'Рыба',p:420,e:'🐟',d:'Рыба с лимоном и травами'},
+{id:23,n:'Рыбные котлеты',c:'Рыба',p:320,e:'🐟',d:'Нежные домашние котлеты'},
+{id:24,n:'Паста с курицей',c:'Основные блюда',p:350,e:'🍝',d:'Сливочный соус и сыр'},
+{id:25,n:'Картофельная запеканка',c:'Основные блюда',p:320,e:'🥘',d:'Сытно и по-домашнему'},
+{id:26,n:'Рис с овощами',c:'Основные блюда',p:250,e:'🍚',d:'Рис с ароматными овощами'}
 ];
-const cart={};let category="Все";
-const money=n=>n.toLocaleString("ru-RU");
-function render(){
-const cats=["Все",...new Set(dishes.map(d=>d.c))];
-document.getElementById("cats").innerHTML=cats.map(c=>`<button class="cat ${c===category?'active':''}" onclick="category=${JSON.stringify(c)};render()">${c}</button>`).join("");
-document.getElementById("menu").innerHTML=dishes.filter(d=>category==="Все"||d.c===category).map(d=>`<article class="dish"><div class="photo">${d.e}</div><div class="info"><h3>${d.n}</h3><p>${d.d}</p><div class="price">${money(d.p)} ₽</div><button class="add" onclick="add(${d.id})">+ Добавить</button></div></article>`).join("");
-update();
-}
+const cart={};let favorites=[];try{favorites=JSON.parse(localStorage.getItem('hozyainFavorites')||'[]')}catch(e){favorites=[]}let category='Завтраки';let view='category';const money=n=>n.toLocaleString('ru-RU');
+function render(){document.getElementById('cats').innerHTML='<button class="cat '+(view==='all'?'active':'')+'" onclick="chooseCategory(\'Все блюда\')">🍽️ Все блюда</button>'+categories.map(c=>'<button class="cat '+(view==='category'&&category===c[0]?'active':'')+'" onclick="chooseCategory('+JSON.stringify(c[0])+')">'+c[1]+' '+c[0]+'</button>').join('');let shown=dishes.filter(d=>view==='favorites'?favorites.includes(d.id):view==='all'?true:d.c===category);document.getElementById('menu').innerHTML=shown.length?shown.map(d=>'<article class="dish"><div class="photo">'+d.e+'</div><div class="info"><h3>'+d.n+'</h3><p>'+d.d+'</p><div class="price">'+money(d.p)+' ₽</div><button class="heart" onclick="toggleFavorite('+d.id+')">'+(favorites.includes(d.id)?'❤️ В любимом':'♡ В любимое')+'</button><button class="add" onclick="add('+d.id+')">+ Добавить</button></div></article>').join(''):'<p>Пока нет любимых блюд. Нажми на сердечко у блюда ❤️</p>';update()}
+function chooseCategory(c){if(c==='Все блюда'){view='all'}else{category=c;view='category'}render()}
+function toggleFavorite(id){favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];try{localStorage.setItem('hozyainFavorites',JSON.stringify(favorites))}catch(e){}render()}
+function showFavorites(){view='favorites';render();document.getElementById('cats').scrollIntoView({behavior:'smooth'})}
+function surprise(){const list=dishes.filter(d=>favorites.includes(d.id));if(!list.length){alert('Сначала добавь блюда в ❤️ Любимое!');return}const d=list[Math.floor(Math.random()*list.length)];view='surprise';document.getElementById('cats').innerHTML='';document.getElementById('menu').innerHTML='<article class="dish"><div class="photo">'+d.e+'</div><div class="info"><h3>🎲 '+d.n+'</h3><p>'+d.d+'</p><div class="price">'+money(d.p)+' ₽</div><button class="add" onclick="add('+d.id+')">+ Добавить в корзину</button><button class="heart" onclick="render()">Назад к меню</button></div></article>';update()}
 function add(id){cart[id]=(cart[id]||0)+1;update()}
 function qty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];update()}
-function update(){
-const selected=dishes.filter(d=>cart[d.id]);
-const count=selected.reduce((s,d)=>s+cart[d.id],0);
-const total=selected.reduce((s,d)=>s+d.p*cart[d.id],0);
-document.getElementById("count").textContent=count;
-document.getElementById("sum").textContent=money(total);
-document.getElementById("total").textContent="Итого: "+money(total)+" ₽";
-document.getElementById("items").
-innerHTML=selected.length?selected.map(d=>`<div class="line"><span>${d.e} ${d.n}<br>${money(d.p)} ₽</span><span><button onclick="qty(${d.id},-1)">−</button> ${cart[d.id]} <button onclick="qty(${d.id},1)">+</button></span></div>`).join(""):"Пока ничего не выбрано";
-}
-function order(){
-const selected=dishes.filter(d=>cart[d.id]);
-if(!selected.length){alert("Сначала выбери хотя бы одно блюдо ❤️");return}
-const total=selected.reduce((s,d)=>s+d.p*cart[d.id],0);
-const text="❤️ ВЫБОР ХОЗЯИНА\n\n"+selected.map(d=>d.n+" × "+cart[d.id]+" = "+money(d.p*cart[d.id])+" ₽").join("\n")+"\n\nИтого: "+money(total)+" ₽\nПожелания: "+(document.getElementById("wish").value||"нет")+"\nВремя: "+(document.getElementById("time").value||"не указано");
-if(window.Telegram?.WebApp){
-Telegram.WebApp.showPopup({title:"Заказ подготовлен",message:"Следующим шагом подключим отправку заказа хозяйке.",buttons:[{type:"ok"}]});
-}else{
-document.getElementById("result").textContent="Заказ собран! После подключения Telegram он будет отправляться хозяйке.";
-}
-console.log(text);
-}
+function update(){const selected=dishes.filter(d=>cart[d.id]);const count=selected.reduce((s,d)=>s+cart[d.id],0);const total=selected.reduce((s,d)=>s+d.p*cart[d.id],0);document.getElementById('count').textContent=count;document.getElementById('sum').textContent=money(total);document.getElementById('total').textContent='Итого: '+money(total)+' ₽';document.getElementById('items').innerHTML=selected.length?selected.map(d=>'<div class="line"><span>'+d.e+' '+d.n+'<br>'+money(d.p)+' ₽</span><span><button onclick="qty('+d.id+',-1)">−</button> '+cart[d.id]+' <button onclick="qty('+d.id+',1)">+</button></span></div>').join(''):'Пока ничего не выбрано'}
+function order(){const selected=dishes.filter(d=>cart[d.id]);if(!selected.length){alert('Сначала выбери хотя бы одно блюдо ❤️');return}const total=selected.reduce((s,d)=>s+d.p*cart[d.id],0);const message='❤️ ВЫБОР ХОЗЯИНА\n\n'+selected.map(d=>d.n+' × '+cart[d.id]+' = '+money(d.p*cart[d.id])+' ₽').join('\n')+'\n\nИтого: '+money(total)+' ₽\nПожелания: '+(document.getElementById('wish').value||'нет')+'\nВремя: '+(document.getElementById('time').value||'не указано');document.getElementById('result').textContent='Заказ собран, но пока не отправлен в Telegram. Нажми «Скопировать заказ», чтобы сохранить его.';let old=document.getElementById('copyOrder');if(!old){old=document.createElement('button');old.id='copyOrder';old.className='wide';old.textContent='📋 Скопировать заказ';old.onclick=()=>{if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(message).then(()=>alert('Заказ скопирован ❤️')).catch(()=>prompt('Скопируй заказ:',message))}else{prompt('Скопируй заказ:',message)}};document.getElementById('result').after(old)}}
 render();
 </script>
 </body>
