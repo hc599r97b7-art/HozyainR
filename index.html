@@ -3,159 +3,73 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#260811">
 <title>ВЫБОР ХОЗЯИНА ❤️</title>
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <style>
-*{box-sizing:border-box}body{margin:0;background:#fff8f0;color:#382821;font-family:Arial,sans-serif}header{padding:25px 18px;background:#f1dfd1;border-radius:0 0 24px 24px}header div{font-size:13px;letter-spacing:1px}h1{font-size:26px;margin:10px 0}p{color:#826f65}main{padding:18px 14px 100px}h2{font-size:21px}button{font-size:14px;border:0;border-radius:12px;padding:11px;background:#a63d40;color:white;cursor:pointer}.wide{width:100%;margin-bottom:9px}.toolbar{display:flex;gap:8px}.toolbar button{flex:1}#cats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}.cat{background:white;color:#382821;border:1px solid #e6d3c5;text-align:left;min-height:46px}.cat.active{background:#a63d40;color:white}#menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dish{background:white;border-radius:16px;overflow:hidden;min-width:0}.photo{height:105px;display:grid;place-items:center;background:#f1dfd1;font-size:46px}.info{padding:10px}h3{font-size:15px;margin:0 0 7px}.info p{font-size:12px;min-height:30px;margin:7px 0}.price{font-weight:bold;margin:8px 0}.add,.heart{width:100%}.add{padding:9px}.heart{background:#fff0f0;color:#a63d40;margin-bottom:7px}#cart{margin-top:25px;background:white;padding:14px;border-radius:16px}.line{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #eee}.line button{padding:5px 9px}input,textarea{width:100%;padding:12px;margin:8px 0;border:1px solid #dfcbbd;border-radius:10px;font:inherit}label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right:0;background:#fff8f0;padding:10px 12px}#bottom button{width:100%;padding:14px}.small{font-size:12px}
-
-/* БОРДОВОЕ ОФОРМЛЕНИЕ */
-body {
-  background: #260811;
-  color: #f8e9ed;
-}
-
-header {
-  background: linear-gradient(145deg, #3b0a1a, #761b35);
-  color: #fff0f4;
-  border-bottom: 1px solid #a94b67;
-}
-
-h1, h2, h3 {
-  color: #f3c6d3;
-}
-
-button {
-  background: #781d38;
-  color: #fff4f6;
-  border: 1px solid #b65b76;
-  border-radius: 14px;
-}
-
-button:hover {
-  background: #982b4a;
-}
-
-input, textarea {
-  background: #3b1421;
-  color: #fff0f4;
-  border: 1px solid #874057;
-  border-radius: 10px;
-}
-
-#cart {
-  background: #35101d;
-  border: 1px solid #874057;
-  border-radius: 18px;
-  padding: 16px;
-}
-
-#bottom {
-  background: #260811;
-  border-top: 1px solid #874057;
-}
-
-.small {
-  color: #e4b9c5;
-}
-
+*{box-sizing:border-box}body{margin:0;background:#260811;color:#f8e9ed;font-family:Arial,sans-serif}
+header{padding:25px 18px;background:linear-gradient(145deg,#3b0a1a,#761b35);border-bottom:1px solid #a94b67;border-radius:0 0 24px 24px}
+header div{font-size:13px;letter-spacing:1px}h1{font-size:26px;margin:10px 0}h2{font-size:21px;color:#f3c6d3}h3{font-size:15px;margin:0 0 7px;color:#f3c6d3}
+p{color:#e4b9c5}main{padding:18px 14px 100px}button{font-size:14px;border:1px solid #b65b76;border-radius:14px;padding:11px;background:#781d38;color:#fff4f6;cursor:pointer}
+button:hover{background:#982b4a}.wide{width:100%;margin-bottom:9px}.toolbar{display:flex;gap:8px}.toolbar button{flex:1}
+#cats{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:16px 0}.cat{background:#35101d;color:#f8e9ed;border-color:#874057;text-align:left;min-height:46px}.cat.active{background:#a12d4e}
+#menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}.dish{background:#35101d;border:1px solid #572036;border-radius:16px;overflow:hidden;min-width:0}
+.photo{height:90px;display:grid;place-items:center;background:#461525;font-size:42px}.info{padding:10px}.price{color:#ffd1de;font-weight:bold;font-size:13px;margin:8px 0}
+.add,.heart{width:100%}.add{padding:9px}.heart{background:#fff0f3;color:#781d38;margin-bottom:7px}
+#cart{margin-top:25px;background:#35101d;border:1px solid #874057;border-radius:18px;padding:16px}.line{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid #623047}.line button{padding:5px 9px}
+input,textarea{width:100%;padding:12px;margin:8px 0;background:#3b1421;color:#fff0f4;border:1px solid #874057;border-radius:10px;font:inherit}
+label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right:0;background:#260811;border-top:1px solid #874057;padding:10px 12px;z-index:10}#bottom button{width:100%;padding:14px}.small{font-size:12px;color:#e4b9c5}
+@media(max-width:340px){#menu{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header><div>❤️ ПРИГОТОВЛЕНО С ЛЮБОВЬЮ</div><h1>ВЫБОР ХОЗЯИНА 👑</h1><p>Рома, сегодня выбираешь ты!</p></header>
 <main>
 <h2>Что будем готовить?</h2>
-<div class="toolbar"><button onclick="showFavorites()">❤️ Любимое</button><button onclick="surprise()">🎲 Удиви меня</button></div>
+<div class="toolbar"><button onclick="showFavorites()">❤️ Любимое</button><button onclick="showCategory(0)">🍽 Всё меню</button><button onclick="surprise()">🎲 Удиви меня</button></div>
 <div id="cats"></div><div id="menu"></div>
-<section id="cart"><h2>🛒 Твоя корзина</h2><div id="items">Пока ничего не выбрано</div><h3 id="total">Итого: 0 ₽</h3><label>💌 Пожелания</label><textarea id="wish" rows="3" placeholder="Побольше сыра, без лука..."></textarea><label>⏰ К какому времени?</label><input id="time" placeholder="Например, к 19:00"><button class="wide" onclick="order()">Оформить заказ ❤️</button><p id="result" class="small"></p></section>
+<section id="cart"><h2>🛒 Твоя корзина</h2><div id="items">Пока ничего не выбрано</div><h3 id="total">Выбрано: 0 позиций</h3>
+<label for="wish">💌 Пожелания</label><textarea id="wish" rows="3" placeholder="Побольше сыра, без лука..."></textarea>
+<label for="time">⏰ К какому времени?</label><input id="time" placeholder="Например, к 19:00">
+<button class="wide" onclick="order()">Оформить заказ ❤️</button><p id="result" class="small"></p></section>
 </main>
-<div id="bottom"><button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛒 Корзина · <span id="count">0</span> · <span id="sum">0</span> ₽</button></div>
+<div id="bottom"><button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛒 Корзина · <span id="count">0</span> позиций</button></div>
 <script>
-const categories=[['Завтраки','🍳'],['Сладкая выпечка','🥐'],['Солёная выпечка','🥧'],['Десерты','🍰'],['Курица','🍗'],['Морепродукты','🦐'],['Закуски','🥨'],['Салаты','🥗'],['Напитки','🥤'],['Мясо','🥩'],['Рыба','🐟'],['Основные блюда','🍽️']];
-const dishes=[
-{id:1,n:'Домашние сырники',c:'Завтраки',p:200,e:'🥞',d:'Нежные сырники со сметаной'},
-{id:2,n:'Омлет с сыром',c:'Завтраки',p:180,e:'🍳',d:'Пышный и сытный завтрак'},
-{id:3,n:'Блины',c:'Завтраки',p:180,e:'🥞',d:'Тонкие румяные блинчики'},
-{id:4,n:'Сладкие булочки',c:'Сладкая выпечка',p:150,e:'🥐',d:'Ароматные булочки к чаю'},
-{id:5,n:'Яблочный пирог',c:'Сладкая выпечка',p:250,e:'🥧',d:'Выпечка с яблоком'},
-{id:6,n:'Сырные булочки',c:'Солёная выпечка',p:200,e:'🥯',d:'Мягкие булочки с сыром'},
-{id:7,n:'Домашняя пицца',c:'Солёная выпечка',p:450,e:'🍕',d:'Много сыра и начинки'},
-{id:8,n:'Шоколадный десерт',c:'Десерты',p:180,e:'🍰',d:'Сладкое к чаю'},
-{id:9,n:'Панкейки',c:'Десерты',p:220,e:'🥞',d:'Пышные и нежные'},
-{id:10,n:'Курица в сливочном соусе',c:'Курица',p:380,e:'🍗',d:'Нежная курица в соусе'},
-{id:11,n:'Курица с картофелем',c:'Курица',p:400,e:'🍗',d:'Сытное горячее блюдо'},
-{id:12,n:'Креветки с чесноком',c:'Морепродукты',p:450,e:'🦐',d:'Ароматные креветки'},
-{id:13,n:'Морской коктейль',c:'Морепродукты',p:480,e:'🦑',d:'Морепродукты с зеленью'},
-{id:14,n:'Горячие бутерброды',c:'Закуски',p:180,e:'🥪',d:'С сыром и хрустящей корочкой'},
-{id:15,n:'Сырная тарелка',c:'Закуски',p:300,e:'🧀',d:'Разные виды сыра'},
-{id:16,n:'Салат Цезарь',c:'Салаты',p:320,e:'🥗',d:'Курица, салат и соус'},
-{id:17,n:'Греческий салат',c:'Салаты',p:280,e:'🥗',d:'Овощи, сыр и оливки'},
-{id:18,n:'Домашний лимонад',c:'Напитки',p:120,e:'🍋',d:'Освежающий напиток'},
-{id:19,n:'Какао',c:'Напитки',p:100,e:'☕',d:'Тёплый шоколадный напиток'},
-{id:20,n:'Мясные тефтели',c:'Мясо',p:350,e:'🍖',d:'Сочные домашние тефтели'},
-{id:21,n:'Мясо с картофелем',c:'Мясо',p:400,e:'🥘',d:'Домашнее горячее'},
-{id:22,n:'Запечённая рыба',c:'Рыба',p:420,e:'🐟',d:'Рыба с лимоном и травами'},
-{id:23,n:'Рыбные котлеты',c:'Рыба',p:320,e:'🐟',d:'Нежные домашние котлеты'},
-{id:24,n:'Паста с курицей',c:'Основные блюда',p:350,e:'🍝',d:'Сливочный соус и сыр'},
-{id:25,n:'Картофельная запеканка',c:'Основные блюда',p:320,e:'🥘',d:'Сытно и по-домашнему'},
-{id:26,n:'Рис с овощами',c:'Основные блюда',p:250,e:'🍚',d:'Рис с ароматными овощами'}
+const WORKER_URL = "https://hozyainr-orders.cnpf6dvmyb.workers.dev/";
+const P={kiss:"1 поцелуй 💋",lips:"Поцелуй в губы 😘",cheek:"Поцелуй в щёку 🥰",neck:"Поцелуй в шею 😏",lower:"Поцелуй ниже 🔥",long:"5 минут поцелуев без остановки ❤️‍🔥",hug:"Минута крепких объятий 🫂",hold:"Объятия без права отпустить ❤️",tease:"Поцелуй туда, куда покажу 😈",spicy:"Один неприличный поцелуй 🔥",free:"Бесценно ❤️"};
+const menuData=[
+{name:"Завтраки",emoji:"🍳",dishes:[["Омлет","kiss"],["Яйца варёные","hug"],["Лепёшка роти с ветчиной и сыром","lips"],["Лепёшка роти с творогом и зеленью","cheek"],["Авокадо-тост с яйцом пашот","neck"],["Пицца «Цезарь»","long"],["Сырники","kiss"],["Блины","hold"],["Блины со сгущёнкой","lips"],["Сырники со сметаной","kiss"],["Омлет с помидором","cheek"],["Омлет с грибами","hug"],["Горячие бутерброды с колбасой и сыром","lips"],["Бутерброды с тунцом","neck"],["Тосты с яйцом и сыром","kiss"],["Блины с творогом","hold"],["Сырники с вареньем","cheek"],["Сырники со сгущёнкой","tease"],["Блины с ветчиной и сыром","long"],["Роти с курицей и сыром","kiss"],["Тарталетки с грибами","lips"],["Шакшука","lower"],["Творожная запеканка","hug"],["Английский завтрак","spicy"],["Добавка: бекон","kiss"],["Добавка: сыр","kiss"],["Добавка: шампиньоны","kiss"],["Добавка: колбаса","kiss"],["Добавка: сосиски","kiss"],["Добавка: помидоры","kiss"],["Добавка: авокадо","cheek"],["Добавка: зелень","kiss"],["Добавка: кукуруза","kiss"],["Добавка: оливки","kiss"],["Добавка: моцарелла","cheek"],["Добавка: ветчина","kiss"]]},
+{name:"Сладкая выпечка",emoji:"🥐",dishes:[["Шарлотка","kiss"],["Брауни","lower"],["Синнабоны","lips"],["Вишнёвый пирог","hug"],["Пирог с ягодами","cheek"],["Творожный пирог","hold"],["Лимонный пирог","neck"],["Булочки с изюмом","kiss"],["Ватрушка","lips"],["Печенье «Ушки»","cheek"],["Сочник","hug"],["Американское печенье","spicy"]]},
+{name:"Солёная выпечка",emoji:"🥧",dishes:[["Пицца","lips"],["Хачапури с сыром","kiss"],["Уши с курицей и грибами","hug"],["Пирог с капустой","cheek"],["Пирог с сыром и зеленью","hold"],["Хачапури по-аджарски","neck"],["Пирожки с яйцом и зелёным луком","kiss"],["Слойки с яблоком","lips"],["Слойки с бананом и шоколадом","lower"],["Слойки с сыром","hug"],["Сосиски в тесте","cheek"],["Вареники с картошкой","kiss"],["Вареники с картошкой и грибами","lips"],["Ленивые вареники","hold"],["Вареники с творогом","neck"],["Вареники с вишней","long"],["Драники","spicy"]]},
+{name:"Основные блюда — курица",emoji:"🍗",dishes:[["Курица терияки","kiss"],["Курица в кисло-сладком соусе","lips"],["Курица в сливочном соусе","hug"],["Куриные отбивные с помидорами и сыром","cheek"],["Крылышки в медово-горчичном соусе","neck"],["Паста с курицей и грибами","hold"],["Жареный рис с курицей и яйцом","kiss"],["Курица в медово-горчичном маринаде","lips"],["Курица в апельсиновом соусе","long"],["Курица с ананасами и сыром","lower"],["Куриные бёдра с картофелем в духовке","hug"],["Курица на шпажках","tease"],["Куриные ножки с беконом в тесте","spicy"]]},
+{name:"Мясо и фарш",emoji:"🥩",dishes:[["Плов","kiss"],["Рубленые котлеты","cheek"],["Макароны по-флотски","hug"],["Мясо по-французски","lips"],["Картошка тушёная с курицей","hold"],["Макароны с сосисками","kiss"],["Капуста тушёная","neck"],["Гнёзда с фаршем","lips"],["Голубцы в пекинской капусте","hug"],["Запечённые рёбрышки","lower"],["Куриные фрикадельки","kiss"],["Мясные фрикадельки в томатном соусе","cheek"],["Зразы с грибами","hold"],["Мясные ёжики с рисом","lips"],["Фаршированные кабачки с фаршем","hug"],["Картофельные гнёзда с фаршем и сыром","long"],["Запеканка с фаршем и картофелем","kiss"],["Гречка по-купечески","cheek"],["Рёбрышки в медовой глазури","tease"],["Фрикадельки в сливочном соусе","lips"],["Домашние бургеры","spicy"],["Хот-доги","neck"]]},
+{name:"Рыба и морепродукты",emoji:"🐟",dishes:[["Рыба в духовке с лимоном","kiss"],["Лосось в сливочном соусе","neck"],["Креветки в кисло-сладком соусе","long"]]},
+{name:"Другие горячие блюда",emoji:"🍝",dishes:[["Карбонара","lips"],["Лазанья","hug"],["Овощное рагу","cheek"],["Жареная картошка с грибами","lower"]]},
+{name:"Супы",emoji:"🍲",dishes:[["Борщ","kiss"],["Куриный суп с лапшой","hug"],["Суп с фрикадельками","cheek"],["Сырный суп с курицей","lips"],["Щи с квашеной капустой","kiss"],["Гороховый суп с копчёностями","hold"],["Солянка","neck"],["Рассольник","lips"],["Уха","hug"],["Суп с галушками","cheek"],["Сырный суп с грибами","long"],["Сливочный суп с лососем","lower"],["Том-ям","spicy"],["Окрошка","tease"]]},
+{name:"Пельмени",emoji:"🥟",dishes:[["Обычные пельмени","kiss"],["Жареные пельмени","neck"],["Пельмени с бульоном","hug"]]},
+{name:"Гарниры",emoji:"🥔",dishes:[["Картофельное пюре","cheek"],["Рис","kiss"],["Гречка с маслом","hug"],["Запечённые овощи","lips"],["Картофель по-деревенски","hold"],["Картофель фри","neck"],["Отварной картофель с зеленью","kiss"],["Рис с овощами","cheek"],["Гречка с грибами","lips"],["Спагетти","long"],["Макароны с маслом","hug"],["Макароны с сыром","lower"],["Тушёная капуста","kiss"],["Соленья","tease"],["Овощи свежие","lips"]]},
+{name:"Соусы и заправки",emoji:"🥫",dishes:[["Сырный соус","kiss"],["Чесночный соус","lips"],["Медово-соевый соус","cheek"],["Сметанно-чесночный соус","hug"],["Кетчуп","neck"],["Терияки","kiss"],["Горчичный соус","lower"],["Кисло-сладкий соус","lips"],["Соус барбекю","long"],["Соус для бургеров","hold"],["Медово-горчичный соус","tease"],["Острый соус","spicy"],["Укропно-сметанный соус","cheek"],["Лимонная заправка","hug"]]},
+{name:"Намазки и дипы",emoji:"🥑",dishes:[["Яичная намазка","kiss"],["Творожная намазка с зеленью","cheek"],["Намазка с тунцом","lips"],["Намазка с авокадо","hug"],["Паста из вяленых томатов","neck"],["Грибной дип","hold"],["Соус из феты с зеленью","lower"],["Бабагануш из баклажанов","long"]]},
+{name:"Десерты",emoji:"🍰",dishes:[["Тирамису","lips"],["Трайфлы в стаканчиках","kiss"],["Шоколадная колбаса","neck"],["Чизкейк","hug"],["Медовик","cheek"],["Наполеон","hold"],["Красный бархат","lower"],["Морковный торт","kiss"],["Ягодное желе","long"],["Лимонный тарт","lips"],["Йогуртовый десерт с гранолой","tease"],["Панкейки","spicy"]]},
+{name:"Напитки",emoji:"🥤",dishes:[["Холодный чай","kiss"],["Чай с лимоном и мёдом","hug"],["Холодный кофе","neck"],["Кофе с молоком","lips"],["Горячий шоколад","cheek"],["Какао","hold"],["Домашний лимонад","lower"],["Чай с апельсином и корицей","long"],["Чай-ассорти (заварочный)","kiss"]]},
+{name:"Салаты",emoji:"🥗",dishes:[["Цезарь с курицей","kiss"],["Греческий салат","cheek"],["Оливье","hug"],["Крабовый салат","lips"],["Салат с тунцом","neck"],["Салат с сухариками","kiss"],["Селёдка под шубой","hold"],["Салат с курицей и ананасами","lower"],["Салат «Мимоза»","cheek"],["Салат коул-слоу","lips"],["Овощной салат","long"]]},
+{name:"Закуски",emoji:"🍟",dishes:[["Картофель фри","neck"],["Картофель по-деревенски","kiss"],["Наггетсы","lips"],["Луковые кольца","hug"],["Сырные палочки","cheek"],["Рулетики из баклажана","lower"],["Фаршированные шампиньоны","spicy"]]},
+{name:"Заказать малышке",emoji:"❤️",dishes:[["Роллы","free"],["Бургеры","free"],["Пицца","free"],["Готовые рёбрышки с доставкой","free"]]}
 ];
-const cart={};let favorites=[];try{favorites=JSON.parse(localStorage.getItem('hozyainFavorites')||'[]')}catch(e){favorites=[]}let category='Завтраки';let view='category';const money=n=>n.toLocaleString('ru-RU');
-function render(){document.getElementById('cats').innerHTML='<button class="cat '+(view==='all'?'active':'')+'" onclick="chooseCategory(\'Все блюда\')">🍽️ Все блюда</button>'+categories.map(c=>'<button class="cat '+(view==='category'&&category===c[0]?'active':'')+'" onclick="chooseCategory('+JSON.stringify(c[0])+')">'+c[1]+' '+c[0]+'</button>').join('');let shown=dishes.filter(d=>view==='favorites'?favorites.includes(d.id):view==='all'?true:d.c===category);document.getElementById('menu').innerHTML=shown.length?shown.map(d=>'<article class="dish"><div class="photo">'+d.e+'</div><div class="info"><h3>'+d.n+'</h3><p>'+d.d+'</p><div class="price">'+money(d.p)+' ₽</div><button class="heart" onclick="toggleFavorite('+d.id+')">'+(favorites.includes(d.id)?'❤️ В любимом':'♡ В любимое')+'</button><button class="add" onclick="add('+d.id+')">+ Добавить</button></div></article>').join(''):'<p>Пока нет любимых блюд. Нажми на сердечко у блюда ❤️</p>';update()}
-function chooseCategory(c){if(c==='Все блюда'){view='all'}else{category=c;view='category'}render()}
-function toggleFavorite(id){favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];try{localStorage.setItem('hozyainFavorites',JSON.stringify(favorites))}catch(e){}render()}
-function showFavorites(){view='favorites';render();document.getElementById('cats').scrollIntoView({behavior:'smooth'})}
-function surprise(){const list=dishes.filter(d=>favorites.includes(d.id));if(!list.length){alert('Сначала добавь блюда в ❤️ Любимое!');return}const d=list[Math.floor(Math.random()*list.length)];view='surprise';document.getElementById('cats').innerHTML='';document.getElementById('menu').innerHTML='<article class="dish"><div class="photo">'+d.e+'</div><div class="info"><h3>🎲 '+d.n+'</h3><p>'+d.d+'</p><div class="price">'+money(d.p)+' ₽</div><button class="add" onclick="add('+d.id+')">+ Добавить в корзину</button><button class="heart" onclick="render()">Назад к меню</button></div></article>';update()}
-function add(id){cart[id]=(cart[id]||0)+1;update()}
-function qty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];update()}
-function update(){const selected=dishes.filter(d=>cart[d.id]);const count=selected.reduce((s,d)=>s+cart[d.id],0);const total=selected.reduce((s,d)=>s+d.p*cart[d.id],0);document.getElementById('count').textContent=count;document.getElementById('sum').textContent=money(total);document.getElementById('total').textContent='Итого: '+money(total)+' ₽';document.getElementById('items').innerHTML=selected.length?selected.map(d=>'<div class="line"><span>'+d.e+' '+d.n+'<br>'+money(d.p)+' ₽</span><span><button onclick="qty('+d.id+',-1)">−</button> '+cart[d.id]+' <button onclick="qty('+d.id+',1)">+</button></span></div>').join(''):'Пока ничего не выбрано'}
-
-async function order() {
-  const selected = dishes.filter(d => cart[d.id]);
-
-  if (!selected.length) {
-    alert('Сначала выбери хотя бы одно блюдо ❤️');
-    return;
-  }
-
-  const total = selected.reduce((s, d) => s + d.p * cart[d.id], 0);
-
-  const items = selected.map(d => ({
-    name: d.n,
-    quantity: cart[d.id]
-  }));
-
-  const comment =
-    'Итого: ' + money(total) + ' ₽\n' +
-    'Пожелания: ' + (document.getElementById('wish').value || 'нет') + '\n' +
-    'Время: ' + (document.getElementById('time').value || 'не указано');
-
-  const result = document.getElementById('result');
-  result.textContent = 'Отправляем заказ…';
-
-  try {
-    const response = await fetch(
-      'https://hozyainr-orders.cnpf6dvmyb.workers.dev/',
-      {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ items, comment })
-      }
-    );
-
-    const data = await response.json();
-
-    if (!response.ok || !data.ok) {
-      throw new Error('Не удалось отправить заказ');
-    }
-
-    result.textContent = 'Заказ отправлен тебе в Telegram ❤️';
-  } catch (error) {
-    result.textContent =
-      'Не получилось отправить заказ. Проверь подключение и попробуй ещё раз.';
-  }
-}
-
-render();
+let cart={};let favorites=JSON.parse(localStorage.getItem("hozyainFavorites")||"[]");let currentCategory=0;let favoritesMode=false;
+const allDishes=menuData.flatMap((cat,ci)=>cat.dishes.map((d,di)=>({id:`${ci}-${di}`,name:d[0],price:P[d[1]],emoji:cat.emoji,category:cat.name})));
+function renderCats(){const el=document.getElementById("cats");el.innerHTML=menuData.map((c,i)=>`<button class="cat ${!favoritesMode&&i===currentCategory?'active':''}" onclick="showCategory(${i})">${c.emoji} ${c.name}</button>`).join("");}
+function showCategory(i){currentCategory=i;favoritesMode=false;renderCats();renderMenu(menuData[i].dishes.map((d,di)=>({id:`${i}-${di}`,name:d[0],price:P[d[1]],emoji:menuData[i].emoji,category:menuData[i].name})));document.getElementById("menu").scrollIntoView({behavior:"smooth",block:"start"});}
+function showFavorites(){favoritesMode=true;renderCats();renderMenu(allDishes.filter(d=>favorites.includes(d.id)));if(!favorites.length)document.getElementById("menu").innerHTML="<p>Пока нет любимых блюд. Нажми ❤️ на карточке блюда.</p>";}
+function renderMenu(list){const el=document.getElementById("menu");el.innerHTML=list.map(d=>`<article class="dish"><div class="photo">${d.emoji}</div><div class="info"><h3>${escapeHtml(d.name)}</h3><div class="price">${d.price}</div><button class="heart" onclick="toggleFavorite('${d.id}')">${favorites.includes(d.id)?"❤️ В любимом":"🤍 В избранное"}</button><button class="add" onclick="addToCart('${d.id}')">＋ Добавить</button></div></article>`).join("")||"<p>В этой категории пока нет блюд.</p>";}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function toggleFavorite(id){favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];localStorage.setItem("hozyainFavorites",JSON.stringify(favorites));if(favoritesMode)showFavorites();else showCategory(currentCategory);}
+function addToCart(id){const d=allDishes.find(x=>x.id===id);if(!d)return;if(!cart[id])cart[id]={...d,qty:0};cart[id].qty++;renderCart();}
+function changeQty(id,delta){if(!cart[id])return;cart[id].qty+=delta;if(cart[id].qty<=0)delete cart[id];renderCart();}
+function renderCart(){const entries=Object.values(cart);document.getElementById("items").innerHTML=entries.length?entries.map(d=>`<div class="line"><div><strong>${escapeHtml(d.name)}</strong><div class="price">${d.price}</div><div class="small">Количество: ${d.qty}</div></div><div><button onclick="changeQty('${d.id}',-1)">−</button> <button onclick="changeQty('${d.id}',1)">＋</button></div></div>`).join(""):"Пока ничего не выбрано";const count=entries.reduce((s,d)=>s+d.qty,0);document.getElementById("total").textContent=`Выбрано: ${count} порций`;document.getElementById("count").textContent=count;}
+function surprise(){const pool=allDishes.filter(d=>favorites.includes(d.id));if(!pool.length){alert("Сначала добавь несколько блюд в избранное ❤️");return;}const d=pool[Math.floor(Math.random()*pool.length)];renderMenu([d]);document.getElementById("menu").scrollIntoView({behavior:"smooth"});}
+async function order(){const entries=Object.values(cart);if(!entries.length){document.getElementById("result").textContent="Сначала добавь блюда в корзину ❤️";return;}const payload={items:entries.map(d=>({name:d.name,price:d.price,quantity:d.qty})),wish:document.getElementById("wish").value.trim(),time:document.getElementById("time").value.trim(),count:entries.reduce((s,d)=>s+d.qty,0),source:"ВЫБОР ХОЗЯИНА"};const btn=document.querySelector('#cart button[onclick="order()"]');btn.disabled=true;btn.textContent="Отправляю заказ…";try{const response=await fetch(WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});if(!response.ok)throw new Error("HTTP "+response.status);document.getElementById("result").textContent="Заказ отправлен! ❤️";cart={};renderCart();}catch(e){document.getElementById("result").textContent="Не удалось отправить заказ. Попробуй ещё раз или напиши мне напрямую в Telegram.";console.error(e);}finally{btn.disabled=false;btn.textContent="Оформить заказ ❤️";}}
+renderCats();showCategory(0);renderCart();
 </script>
 </body>
 </html>
