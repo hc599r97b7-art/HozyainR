@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ВЫБОР ХОЗЯИНА ❤️</title>
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
+<style>
+body{margin:0;background:#fff8f0;color:#382821;font-family:Arial,sans-serif}
+header{padding:26px 20px;background:#f1dfd1;border-radius:0 0 24px 24px}
+h1{font-size:27px;margin:8px 0}
+p{color:#826f65}
+main{padding:18px 14px 100px}
+#cats{display:flex;gap:8px;overflow:auto;margin-bottom:18px}
+button{font-size:15px;border:0;border-radius:12px;padding:11px;background:#a63d40;color:white}
+.cat{background:white;color:#382821;border:1px solid #e6d3c5;white-space:nowrap}
+.cat.active{background:#a63d40;color:white}
+#menu{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.dish{background:white;border-radius:16px;overflow:hidden}
+.photo{height:105px;display:grid;place-items:center;background:#f1dfd1;font-size:48px}
+.info{padding:11px}
+h3{font-size:16px;margin:0 0 7px}
+.info p{font-size:12px;min-height:28px}
+.price{font-weight:bold;margin:8px 0}
+.add{width:100%;padding:9px}
+#cart{margin-top:26px;background:white;padding:14px;border-radius:16px}
+.line{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #eee}
+.line button{padding:5px 10px}
+input,textarea{box-sizing:border-box;width:100%;padding:12px;margin:8px 0;border:1px solid #dfcbbd;border-radius:10px;font:inherit}
+#bottom{position:fixed;bottom:0;left:0;right:0;background:#fff8f0;padding:12px}
+#bottom button{width:100%;padding:15px}
+.small{font-size:12px}
+</style>
+</head>
+<body>
+<header>
+<div>❤️ ПРИГОТОВЛЕНО С ЛЮБОВЬЮ</div>
+<h1>ВЫБОР ХОЗЯИНА 👑</h1>
+<p>Рома, сегодня выбираешь ты!</p>
+</header>
+<main>
+<h2>Что будем готовить?</h2>
+<div id="cats"></div>
+<div id="menu"></div>
+<section id="cart">
+<h2>🛒 Твоя корзина</h2>
+<div id="items">Пока ничего не выбрано</div>
+<h3 id="total">Итого: 0 ₽</h3>
+<label>💌 Пожелания</label>
+<textarea id="wish" rows="3" placeholder="Побольше сыра, без лука..."></textarea>
+<label>⏰ К какому времени?</label>
+<input id="time" placeholder="Например, к 19:00">
+<button onclick="order()">Оформить заказ ❤️</button>
+<p id="result" class="small"></p>
+</section>
+</main>
+<div id="bottom"><button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛒 Корзина · <span id="count">0</span> · <span id="sum">0</span> ₽</button></div>
+<script>
+const dishes=[
+{id:1,n:"Паста с курицей",c:"Ужин",p:350,e:"🍝",d:"Сливочный соус и сыр"},
+{id:2,n:"Домашние сырники",c:"Завтрак",p:200,e:"🥞",d:"Нежные, со сметаной"},
+{id:3,n:"Домашняя пицца",c:"Ужин",p:450,e:"🍕",d:"Много сыра и начинки"},
+{id:4,n:"Шоколадный десерт",c:"Десерт",p:180,e:"🍰",d:"Сладкое к чаю"},
+{id:5,n:"Картошка с мясом",c:"Ужин",p:400,e:"🥘",d:"Домашнее горячее"},
+{id:6,n:"Омлет",c:"Завтрак",p:180,e:"🍳",d:"Вкусный сытный завтрак"}
+];
+const cart={};let category="Все";
+const money=n=>n.toLocaleString("ru-RU");
+function render(){
+const cats=["Все",...new Set(dishes.map(d=>d.c))];
+document.getElementById("cats").innerHTML=cats.map(c=>`<button class="cat ${c===category?'active':''}" onclick="category=${JSON.stringify(c)};render()">${c}</button>`).join("");
+document.getElementById("menu").innerHTML=dishes.filter(d=>category==="Все"||d.c===category).map(d=>`<article class="dish"><div class="photo">${d.e}</div><div class="info"><h3>${d.n}</h3><p>${d.d}</p><div class="price">${money(d.p)} ₽</div><button class="add" onclick="add(${d.id})">+ Добавить</button></div></article>`).join("");
+update();
+}
+function add(id){cart[id]=(cart[id]||0)+1;update()}
+function qty(id,n){cart[id]=(cart[id]||0)+n;if(cart[id]<=0)delete cart[id];update()}
+function update(){
+const selected=dishes.filter(d=>cart[d.id]);
+const count=selected.reduce((s,d)=>s+cart[d.id],0);
+const total=selected.reduce((s,d)=>s+d.p*cart[d.id],0);
+document.getElementById("count").textContent=count;
+document.getElementById("sum").textContent=money(total);
+document.getElementById("total").textContent="Итого: "+money(total)+" ₽";
+document.getElementById("items").
+innerHTML=selected.length?selected.map(d=>`<div class="line"><span>${d.e} ${d.n}<br>${money(d.p)} ₽</span><span><button onclick="qty(${d.id},-1)">−</button> ${cart[d.id]} <button onclick="qty(${d.id},1)">+</button></span></div>`).join(""):"Пока ничего не выбрано";
+}
+function order(){
+const selected=dishes.filter(d=>cart[d.id]);
+if(!selected.length){alert("Сначала выбери хотя бы одно блюдо ❤️");return}
+const total=selected.reduce((s,d)=>s+d.p*cart[d.id],0);
+const text="❤️ ВЫБОР ХОЗЯИНА\n\n"+selected.map(d=>d.n+" × "+cart[d.id]+" = "+money(d.p*cart[d.id])+" ₽").join("\n")+"\n\nИтого: "+money(total)+" ₽\nПожелания: "+(document.getElementById("wish").value||"нет")+"\nВремя: "+(document.getElementById("time").value||"не указано");
+if(window.Telegram?.WebApp){
+Telegram.WebApp.showPopup({title:"Заказ подготовлен",message:"Следующим шагом подключим отправку заказа хозяйке.",buttons:[{type:"ok"}]});
+}else{
+document.getElementById("result").textContent="Заказ собран! После подключения Telegram он будет отправляться хозяйке.";
+}
+console.log(text);
+}
+render();
+</script>
+</body>
+</html>
