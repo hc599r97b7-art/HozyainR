@@ -23,7 +23,7 @@ label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right
 </style>
 </head>
 <body>
-<header><div>❤️ ПРИГОТОВЛЕНО С ЛЮБОВЬЮ</div><h1>ВЫБОР ХОЗЯИНА 👑</h1><p>Рома, сегодня выбираешь ты!</p></header>
+<header><div>❤️ ПРИГОТОВЛЕНО С ЛЮБОВЬЮ</div><h1>ВЫБОР ХОЗЯИНА 👑</h1><p>Дорогой, сегодня выбираешь ты!</p></header>
 <main>
 <h2>Что будем готовить?</h2>
 <div class="toolbar"><button onclick="showFavorites()">❤️ Любимое</button><button onclick="showCategory(0)">🍽 Всё меню</button><button onclick="surprise()">🎲 Удиви меня</button></div>
@@ -61,7 +61,7 @@ const allDishes=menuData.flatMap((cat,ci)=>cat.dishes.map((d,di)=>({id:`${ci}-${
 function renderCats(){const el=document.getElementById("cats");el.innerHTML=menuData.map((c,i)=>`<button class="cat ${!favoritesMode&&i===currentCategory?'active':''}" onclick="showCategory(${i})">${c.emoji} ${c.name}</button>`).join("");}
 function showCategory(i){currentCategory=i;favoritesMode=false;renderCats();renderMenu(menuData[i].dishes.map((d,di)=>({id:`${i}-${di}`,name:d[0],price:P[d[1]],emoji:menuData[i].emoji,category:menuData[i].name})));document.getElementById("menu").scrollIntoView({behavior:"smooth",block:"start"});}
 function showFavorites(){favoritesMode=true;renderCats();renderMenu(allDishes.filter(d=>favorites.includes(d.id)));if(!favorites.length)document.getElementById("menu").innerHTML="<p>Пока нет любимых блюд. Нажми ❤️ на карточке блюда.</p>";}
-const DISH_PHOTOS={"Яйца варёные": "4C02EEF6-B58F-412B-BA15-49A443C933CA.png", "Омлет": "999125EC-8166-421C-AB04-CB20301353CA.png", "Лепёшка роти с ветчиной и сыром": "C59CF09E-624E-47C2-A512-614177458EA9.png", "Лепёшка роти с творогом и зеленью": "DF1A3F8F-01B6-48F6-8C03-D34F802BF66D.png"};
+const DISH_PHOTOS={"Яйца варёные": "4C02EEF6-B58F-412B-BA15-49A443C933CA.png", "Омлет": "999125EC-8166-421C-AB04-CB20301353CA.png", "Лепёшка роти с ветчиной и сыром": "C59CF09E-624E-47C2-A512-614177458EA9.png", "Лепёшка роти с творогом и зеленью": "DF1A3F8F-01B6-48F6-8C03-D34F802BF66D.png", "Авокадо-тост с яйцом пашот": "Авокадо-тост с яйцом пашот и томатами.png", "Пицца «Цезарь»": "Роскошная пицца «Цезарь» при свечах.png", "Сырники": "Роскошные сырники с ягодами и кремом.png", "Блины": "Роскошные блины с ягодами и кремом.png", "Блины со сгущёнкой": "Роскошные блинчики с ягодами и кремом.png"};
 function renderMenu(list){const el=document.getElementById("menu");el.innerHTML=list.map(d=>`<article class="dish"><div class="photo">${DISH_PHOTOS[d.name]?`<img src="${DISH_PHOTOS[d.name]}" alt="${escapeHtml(d.name)}" loading="lazy" style="width:100%;height:100%;object-fit:cover">`:d.emoji}</div><div class="info"><h3>${escapeHtml(d.name)}</h3><div class="price">${d.price}</div><button class="heart" onclick="toggleFavorite('${d.id}')">${favorites.includes(d.id)?"❤️ В любимом":"🤍 В избранное"}</button><button class="add" onclick="addToCart('${d.id}')">＋ Добавить</button></div></article>`).join("")||"<p>В этой категории пока нет блюд.</p>";}
 function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
 function toggleFavorite(id){favorites=favorites.includes(id)?favorites.filter(x=>x!==id):[...favorites,id];localStorage.setItem("hozyainFavorites",JSON.stringify(favorites));if(favoritesMode)showFavorites();else showCategory(currentCategory);}
