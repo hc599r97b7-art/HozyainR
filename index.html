@@ -84,11 +84,24 @@ label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right
 .secret-card-back[hidden]{display:none}
 .secret-card-back p{font-size:12px;line-height:1.4;margin:5px 0 10px;color:#fff1e6}
 .secret-choices .secret-card-back button{min-height:40px;width:100%;font-size:12px;background:#f0c78e;color:#431327;border:0}
+
+/* VIP-резиденция */
+#vip-entry{width:100%;margin:0 0 17px;padding:17px;border:1px solid #e7c27f;background:linear-gradient(125deg,#69233d,#2c0b1c);color:#ffe6b0;font-weight:800;font-size:17px;box-shadow:0 6px 22px #0005}
+#vip-modal{position:fixed;inset:0;z-index:1200;background:#10050bdc;display:none;align-items:center;justify-content:center;padding:16px;overflow-y:auto}
+#vip-modal.open{display:flex} .vip-dialog{background:#2c0d1d;border:1px solid #d8ad6a;border-radius:22px;padding:20px;width:min(480px,100%);max-height:90vh;overflow-y:auto;text-align:center}
+.vip-card{padding:24px 18px;text-align:left;border:1px solid #e6c17d;border-radius:18px;background:linear-gradient(135deg,#682841,#250a1b);box-shadow:0 7px 25px #0006;margin:12px 0 18px}
+.vip-card .vip-name{font:700 32px Georgia,serif;color:#ffdfa2;letter-spacing:2px;margin:22px 0 4px}.vip-card .vip-title{font-size:12px;letter-spacing:1.5px;color:#e8c78b}.vip-card .vip-bottom{margin-top:25px;font-size:12px;color:#ffdfb2}
+.vip-dialog h2,.vip-dialog h3{color:#ffdfa2}.vip-stats{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin:15px 0}.vip-stat{background:#40172a;border:1px solid #81516b;border-radius:12px;padding:12px 5px}.vip-stat strong{display:block;font-size:23px;color:#ffdfa2}
+.vip-achievements{text-align:left;margin:15px 0}.vip-achievement{padding:10px 12px;margin:7px 0;border:1px solid #704457;border-radius:12px;background:#361222}.vip-achievement.unlocked{border-color:#d7ac6b;background:#533047}.vip-achievement small{display:block;color:#e8bcca;margin-top:5px}
+#vip-attention{width:100%;border-color:#e6c17d;background:#8b2947;font-weight:800;padding:14px}#vip-attention:disabled{opacity:.65}#vip-close{width:100%;margin-top:9px;background:#321324}
+#achievement-toast{display:none;position:fixed;z-index:1500;top:15%;left:50%;transform:translateX(-50%);width:min(90vw,360px);padding:22px;border:2px solid #e6c17d;border-radius:18px;background:linear-gradient(140deg,#67223c,#260a19);box-shadow:0 12px 40px #000b;text-align:center;color:#ffe4ae;font-weight:bold;font-size:19px}
+#achievement-toast.show{display:block}
 </style>
 </head>
 <body>
 <header><div>❤️ ПРИГОТОВЛЕНО С ЛЮБОВЬЮ</div><h1>ВЫБОР ХОЗЯИНА 👑</h1><p>Дорогой, сегодня выбираешь ты!</p></header>
 <main>
+<button id="vip-entry" type="button" onclick="openVip()">👑 МОЯ VIP-РЕЗИДЕНЦИЯ ✨</button>
 <h2>Что будем готовить?</h2>
 <div class="toolbar"><button onclick="showFavorites()">❤️ Любимое</button><button onclick="showCategory(0)">🍽 Всё меню</button><button onclick="surprise()">🎲 Удиви меня</button></div>
 <button id="secret-entry" type="button" onclick="openSecret()">🔞 Вход только для Хозяина 👑</button>
@@ -111,8 +124,19 @@ label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right
  <button class="secret-close" type="button" onclick="closeSecret()">💋 Пока сохраню интригу</button>
  </div>
 </div>
+
+<div id="vip-modal" role="dialog" aria-modal="true" aria-labelledby="vip-heading"><div class="vip-dialog">
+<h2 id="vip-heading">👑 ЛИЧНЫЙ КАБИНЕТ ХОЗЯИНА</h2>
+<div class="vip-card"><div style="color:#ffe1a2">♛ EXCLUSIVE · LIFETIME</div><div class="vip-name">ROMAN</div><div class="vip-title">ЕДИНСТВЕННЫЙ ХОЗЯИН</div><div class="vip-bottom">❤️ Владелец сердца малышки · Карта пожизненная</div></div>
+<p>Передаче другим мужчинам не подлежит. Неограниченный доступ к сердцу малышки. ❤️</p>
+<div class="vip-stats"><div class="vip-stat"><strong id="vip-orders">0</strong>Заказов</div><div class="vip-stat"><strong id="vip-dishes">0</strong>Разных блюд</div><div class="vip-stat"><strong id="vip-secrets">0</strong>Секретных наград</div><div class="vip-stat"><strong id="vip-spins">0</strong>Вращений рулетки</div></div>
+<h3>🏆 Достижения Хозяина</h3><div id="vip-achievements" class="vip-achievements"></div>
+<button id="vip-attention" type="button" onclick="requestAttention()">💋 Потребовать внимания малышки</button><p id="vip-feedback" role="status" class="small"></p>
+<button id="vip-close" type="button" onclick="closeVip()">❤️ Вернуться в резиденцию</button>
+</div></div><div id="achievement-toast" role="status" aria-live="polite"></div>
 <div id="bottom"><button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛒 Корзина · <span id="count">0</span> позиций</button></div>
 <script>
+
 const WORKER_URL = "https://hozyainr-orders.cnpf6dvmyb.workers.dev/";
 const P={kiss:"1 поцелуй 💋",lips:"Поцелуй в губы 😘",cheek:"Поцелуй в щёку 🥰",neck:"Поцелуй в шею 😏",lower:"Поцелуй ниже 🔥",long:"5 минут поцелуев без остановки ❤️‍🔥",hug:"Минута крепких объятий 🫂",hold:"Объятия без права отпустить ❤️",tease:"Поцелуй туда, куда покажу 😈",spicy:"Один неприличный поцелуй 🔥",free:"Бесценно ❤️"};
 const menuData=[
@@ -159,7 +183,7 @@ async function order(){const entries=Object.values(cart);if(!entries.length){doc
 const babyItems=entries.filter(d=>d.category==='Заказать малышке');if(babyItems.length&&!babySurprise){openBabyModal();document.getElementById('result').textContent='Дорогой, сначала выбери сюрприз для малышки 💋';return;}
 const items=entries.map(d=>({name:d.name,price:d.price,quantity:d.qty}));if(babyItems.length){items.unshift({name:'👑 ХОЗЯИН СЕГОДНЯ ДАЛ МАЛЫШКЕ ОТДОХНУТЬ И САМ УСТРАИВАЕТ ВЕЧЕР! ❤️',price:'Сюрприз: '+babySurprise,quantity:1});}
 const payload={items,wish:document.getElementById("wish").value.trim(),time:document.getElementById("time").value.trim(),count:entries.reduce((s,d)=>s+d.qty,0),source:"ВЫБОР ХОЗЯИНА"};
-const btn=document.querySelector('#cart button[onclick="order()"]');btn.disabled=true;btn.textContent="Отправляю заказ…";try{await sendToTelegram(payload);document.getElementById("result").textContent="Заказ отправлен! ❤️";cart={};babySurprise='';document.getElementById('baby-summary').textContent='';renderCart();}catch(e){document.getElementById("result").textContent="Не удалось отправить заказ. Попробуй ещё раз или напиши мне напрямую в Telegram.";console.error(e);}finally{btn.disabled=false;btn.textContent="Оформить заказ ❤️";}}
+const btn=document.querySelector('#cart button[onclick="order()"]');btn.disabled=true;btn.textContent="Отправляю заказ…";try{await sendToTelegram(payload);document.getElementById("result").textContent="Заказ отправлен! ❤️";vipProgress("order",entries.filter(d=>d.category!=="Заказать малышке").map(d=>d.id));cart={};babySurprise='';document.getElementById('baby-summary').textContent='';renderCart();}catch(e){document.getElementById("result").textContent="Не удалось отправить заказ. Попробуй ещё раз или напиши мне напрямую в Telegram.";console.error(e);}finally{btn.disabled=false;btn.textContent="Оформить заказ ❤️";}}
 
 
 const SECRET_WISHES=[
@@ -199,7 +223,7 @@ async function chooseSecret(i){
  feedback.textContent='Передаю секрет малышке… 💌';
  try{
   await sendToTelegram({items:[{name:'🔞 СЕКРЕТНЫЙ ВЫБОР ХОЗЯИНА: '+wish,price:'Особая награда 💋',quantity:1}],wish:'Хозяин заглянул на секретную территорию 😈',time:'',count:1,source:'ВЫБОР ХОЗЯИНА'});
-  feedback.textContent='👑 Принято! Малышка уже получила твой секретный выбор. Жди награды… 😈💋';
+  vipProgress('secret');feedback.textContent='👑 Принято! Малышка уже получила твой секретный выбор. Жди награды… 😈💋';
  }catch(e){
   console.error(e);feedback.textContent='Не удалось передать секрет. Попробуй ещё раз ❤️';
   buttons.forEach(b=>b.disabled=false);
@@ -232,12 +256,47 @@ function spinRoulette(){
  const delta=(desired-previous+360)%360;
  rouletteRotation+=360*5+delta;
  wheel.style.transform=`rotate(${rouletteRotation}deg)`;
- const finish=async()=>{const prize=ROULETTE_PRIZES[index].full;result.textContent=`👑 Хозяин, тебе выпало: ${prize}`;btn.disabled=false;rouletteBusy=false;try{await sendToTelegram({items:[{name:'🎰 РУЛЕТКА ЖЕЛАНИЙ: '+prize,price:'Приз Хозяина 💋',quantity:1}],wish:'Хозяин покрутил рулетку желаний',time:'',count:1,source:'ВЫБОР ХОЗЯИНА'});}catch(e){console.error('Не удалось отправить результат рулетки',e);result.textContent+= ' · ⚠️ Не удалось отправить результат малышке. Попробуй ещё раз.';}};
+ const finish=async()=>{const prize=ROULETTE_PRIZES[index].full;vipProgress('spin');result.textContent=`👑 Хозяин, тебе выпало: ${prize}`;btn.disabled=false;rouletteBusy=false;try{await sendToTelegram({items:[{name:'🎰 РУЛЕТКА ЖЕЛАНИЙ: '+prize,price:'Приз Хозяина 💋',quantity:1}],wish:'Хозяин покрутил рулетку желаний',time:'',count:1,source:'ВЫБОР ХОЗЯИНА'});}catch(e){console.error('Не удалось отправить результат рулетки',e);result.textContent+= ' · ⚠️ Не удалось отправить результат малышке. Попробуй ещё раз.';}};
  if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){setTimeout(finish,180);}else{setTimeout(finish,4900);}
 }
 initRoulette();
-
 renderCats();showCategory(0);renderCart();
+</script>
+<script>
+// Прогресс хранится в этом браузере; между устройствами не синхронизируется.
+const VIP_KEY='hozyainVipProgressV1';
+function readVip(){try{const v=JSON.parse(localStorage.getItem(VIP_KEY)||'{}');return {orders:Number(v.orders)||0,secrets:Number(v.secrets)||0,spins:Number(v.spins)||0,dishes:Array.isArray(v.dishes)?v.dishes:[]}}catch(e){return {orders:0,secrets:0,spins:0,dishes:[]}}}
+let vip=readVip();
+const VIP_ACHIEVEMENTS=[
+ {id:'orders',icon:'👑',name:'Хозяин разбалован',need:10,label:'Оформить 10 заказов',count:()=>vip.orders},
+ {id:'secrets',icon:'😈',name:'Малышка в его власти',need:5,label:'Выбрать 5 секретных наград',count:()=>vip.secrets},
+ {id:'dishes',icon:'🍽️',name:'Гастрономический король',need:15,label:'Заказать 15 разных блюд',count:()=>vip.dishes.length},
+ {id:'spins',icon:'🎰',name:'Любимчик судьбы',need:10,label:'Прокрутить рулетку 10 раз',count:()=>vip.spins}
+];
+function saveVip(){try{localStorage.setItem(VIP_KEY,JSON.stringify(vip))}catch(e){console.warn('VIP progress unavailable',e)}renderVip()}
+function renderVip(){
+ document.getElementById('vip-orders').textContent=vip.orders;
+ document.getElementById('vip-dishes').textContent=vip.dishes.length;
+ document.getElementById('vip-secrets').textContent=vip.secrets;
+ document.getElementById('vip-spins').textContent=vip.spins;
+ document.getElementById('vip-achievements').innerHTML=VIP_ACHIEVEMENTS.map(a=>{const n=a.count(),ok=n>=a.need;return `<div class="vip-achievement ${ok?'unlocked':''}"><strong>${a.icon} ${a.name} ${ok?'🏆':'🔒'}</strong><small>${a.label} · ${Math.min(n,a.need)}/${a.need}</small></div>`}).join('');
+}
+let vipToastTimeout;
+function vipProgress(action,ids=[]){
+ const old=VIP_ACHIEVEMENTS.filter(a=>a.count()>=a.need).map(a=>a.id);
+ if(action==='order'){vip.orders++;vip.dishes=[...new Set([...vip.dishes,...ids])];}
+ if(action==='secret')vip.secrets++;
+ if(action==='spin')vip.spins++;
+ saveVip();
+ const newly=VIP_ACHIEVEMENTS.find(a=>a.count()>=a.need&&!old.includes(a.id));
+ if(newly){const el=document.getElementById('achievement-toast');el.textContent=`🏆 ДОСТИЖЕНИЕ ОТКРЫТО! ${newly.icon} ${newly.name} 🎉`;el.classList.add('show');clearTimeout(vipToastTimeout);vipToastTimeout=setTimeout(()=>el.classList.remove('show'),5500)}
+}
+function openVip(){renderVip();document.getElementById('vip-modal').classList.add('open');document.body.style.overflow='hidden';if(!sessionStorage.getItem('hozyainVipWelcomed')){sessionStorage.setItem('hozyainVipWelcomed','1');document.getElementById('vip-feedback').textContent='Ваше Величество, резиденция официально принадлежит Вам. Навсегда. ❤️'}}
+function closeVip(){document.getElementById('vip-modal').classList.remove('open');document.body.style.overflow=''}
+async function requestAttention(){const btn=document.getElementById('vip-attention'),msg=document.getElementById('vip-feedback');btn.disabled=true;msg.textContent='Передаю королевский запрос… 💌';try{await sendToTelegram({items:[{name:'👑 VIP-ПРИВИЛЕГИЯ: Хозяин требует срочной порции любви и внимания малышки! ❤️',price:'Бесценно ❤️',quantity:1}],wish:'VIP-запрос внимания от Ромы 💋',time:'',count:1,source:'VIP-РЕЗИДЕНЦИЯ ХОЗЯИНА'});msg.textContent='💋 Запрос доставлен малышке!'}catch(e){console.error(e);msg.textContent='Не удалось отправить запрос. Попробуй ещё раз ❤️'}finally{btn.disabled=false}}
+
+
+try{renderVip()}catch(e){console.error("VIP init",e)}
 </script>
 </body>
 </html>
