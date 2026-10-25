@@ -59,6 +59,31 @@ label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right
 #baby-confirm:disabled{opacity:.45}
 #baby-close{margin-top:10px;background:transparent;color:#f5d7dc;border:0}
 #baby-summary{margin:12px 0;color:#ffe0a2;font-weight:700}
+
+/* Секретная территория Хозяина */
+#secret-entry{display:block;width:100%;margin:15px 0 20px;padding:17px;border:1px solid #e9c48b;border-radius:17px;background:linear-gradient(120deg,#831d3b,#3a0a20);color:#ffe8bc;font-size:18px;font-weight:800;box-shadow:0 5px 24px #1b051099}
+#secret-modal{position:fixed;inset:0;z-index:1100;display:none;align-items:center;justify-content:center;padding:15px;background:#11030ddf}
+#secret-modal.open{display:flex}
+.secret-dialog{position:relative;width:min(440px,100%);max-height:91vh;overflow:auto;border:2px solid #e3b879;border-radius:24px;background:linear-gradient(145deg,#59162f,#240814);padding:24px 18px;text-align:center;box-shadow:0 18px 55px #000b}
+.secret-dialog h2{color:#ffe0a2;margin:4px 0 14px}
+.secret-dialog p{line-height:1.55}
+.secret-choices{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin:18px 0}
+.secret-choices button{min-height:78px;padding:11px 7px;background:#70253f;border:1px solid #d8aa6b;color:#fff4e8;border-radius:13px;font-weight:700}
+.secret-choices button:disabled{opacity:.6}
+.secret-dialog .secret-close{margin-top:9px;background:transparent;border:0;color:#f8d5dc}
+#secret-feedback{min-height:28px;color:#ffe0a2;font-weight:700}
+
+.secret-choices{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.secret-card{border:1px solid #d7a766;border-radius:15px;overflow:hidden;background:linear-gradient(145deg,#84294b,#3e1029);box-shadow:0 5px 14px #1003088a}
+.secret-choices .secret-reveal{width:100%;min-height:135px;border:0;border-radius:0;background:transparent;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px;padding:12px 8px}
+.secret-icon{font-size:31px}
+.secret-card-title{font-size:14px;line-height:1.3;color:#ffe5b5}
+.secret-reveal small{font-size:10px;color:#f6cbd7;font-weight:400}
+.secret-card.revealed{background:linear-gradient(145deg,#a04a58,#4b1630)}
+.secret-card-back{padding:0 9px 12px}
+.secret-card-back[hidden]{display:none}
+.secret-card-back p{font-size:12px;line-height:1.4;margin:5px 0 10px;color:#fff1e6}
+.secret-choices .secret-card-back button{min-height:40px;width:100%;font-size:12px;background:#f0c78e;color:#431327;border:0}
 </style>
 </head>
 <body>
@@ -66,6 +91,7 @@ label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right
 <main>
 <h2>Что будем готовить?</h2>
 <div class="toolbar"><button onclick="showFavorites()">❤️ Любимое</button><button onclick="showCategory(0)">🍽 Всё меню</button><button onclick="surprise()">🎲 Удиви меня</button></div>
+<button id="secret-entry" type="button" onclick="openSecret()">🔞 Вход только для Хозяина 👑</button>
 <section id="wish-roulette" aria-label="Рулетка желаний"><h2>🎰 Рулетка желаний Хозяина</h2><p class="roulette-intro">Дорогой, испытай удачу! Какой сюрприз от малышки выпадет сегодня? 😈❤️</p><div class="roulette-stage"><div class="roulette-pointer"></div><div id="roulette-wheel" class="roulette-wheel" aria-hidden="true"></div></div><button id="spin-btn" type="button" onclick="spinRoulette()">💋 Испытать удачу</button><p id="roulette-result" role="status" aria-live="polite">Один поворот — одно желание 👑</p></section>
 <div id="cats"></div><div id="menu"></div>
 <section id="cart"><h2>🛒 Твоя корзина</h2><div id="items">Пока ничего не выбрано</div><h3 id="total">Выбрано: 0 позиций</h3>
@@ -74,6 +100,17 @@ label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right
 <button class="wide" onclick="order()">Оформить заказ ❤️</button><p id="result" class="small"></p></section>
 </main>
 <div id="baby-modal" role="dialog" aria-modal="true" aria-labelledby="baby-title"><div class="baby-dialog"><h2 id="baby-title">🔥 ВНИМАНИЕ! ХОЗЯИН СЕГОДНЯ ОСОБЕННО ОПАСЕН! 🔥</h2><p>Ох, Дорогой… 😏</p><p>Ты вообще понимаешь, что сейчас сделал?!</p><p>Мало того что ты у малышки неприлично красивый, так ещё и решил взять её удовольствие и отдых в свои сильные руки? 👑</p><p><strong>Ммм… Кажется, сегодня кое-кто очень сильно напрашивается на награду… 💋</strong></p><p>Малышка официально освобождена от кухни! А ты сегодня главный по вкусностям, заботе и её довольной улыбке.</p><p>Но не думай, что так просто отделаешься… 😈</p><p><strong>Выбери малышке сюрприз. 🎁</strong></p><p>И учти, Хозяин… чем сильнее ты её побалуешь, тем сложнее ей будет держать свои ручки при себе… 🔥❤️</p><div id="baby-choices" class="baby-choices"></div><button id="baby-confirm" type="button" onclick="confirmBabySurprise()" disabled>😈 Я знаю, чем побаловать малышку</button><button id="baby-close" type="button" onclick="closeBabyModal()">Вернуться к меню</button></div></div>
+<div id="secret-modal" role="dialog" aria-modal="true" aria-labelledby="secret-title">
+ <div class="secret-dialog">
+ <h2 id="secret-title">🔞 СТОП, ХОЗЯИН! 🔥</h2>
+ <p>Ох, Дорогой… Ты только что открыл территорию, где малышка ведёт себя <strong>неприлично хорошо</strong>. 😈💋</p>
+ <p>Здесь за хорошее поведение награждают поцелуями, за дерзкие взгляды — объятиями, а за особые заслуги… кое-чем приятным. 👑</p>
+ <p><strong>Открывай секретные карточки и выбирай свою награду. 🔥</strong></p>
+ <div class="secret-choices" id="secret-choices"></div>
+ <p id="secret-feedback" role="status" aria-live="polite"></p>
+ <button class="secret-close" type="button" onclick="closeSecret()">💋 Пока сохраню интригу</button>
+ </div>
+</div>
 <div id="bottom"><button onclick="document.getElementById('cart').scrollIntoView({behavior:'smooth'})">🛒 Корзина · <span id="count">0</span> позиций</button></div>
 <script>
 const WORKER_URL = "https://hozyainr-orders.cnpf6dvmyb.workers.dev/";
@@ -123,6 +160,51 @@ const babyItems=entries.filter(d=>d.category==='Заказать малышке'
 const items=entries.map(d=>({name:d.name,price:d.price,quantity:d.qty}));if(babyItems.length){items.unshift({name:'👑 ХОЗЯИН СЕГОДНЯ ДАЛ МАЛЫШКЕ ОТДОХНУТЬ И САМ УСТРАИВАЕТ ВЕЧЕР! ❤️',price:'Сюрприз: '+babySurprise,quantity:1});}
 const payload={items,wish:document.getElementById("wish").value.trim(),time:document.getElementById("time").value.trim(),count:entries.reduce((s,d)=>s+d.qty,0),source:"ВЫБОР ХОЗЯИНА"};
 const btn=document.querySelector('#cart button[onclick="order()"]');btn.disabled=true;btn.textContent="Отправляю заказ…";try{await sendToTelegram(payload);document.getElementById("result").textContent="Заказ отправлен! ❤️";cart={};babySurprise='';document.getElementById('baby-summary').textContent='';renderCart();}catch(e){document.getElementById("result").textContent="Не удалось отправить заказ. Попробуй ещё раз или напиши мне напрямую в Telegram.";console.error(e);}finally{btn.disabled=false;btn.textContent="Оформить заказ ❤️";}}
+
+
+const SECRET_WISHES=[
+{icon:"💋",title:"Поцелуйный плен",detail:"20 поцелуев подряд. Хозяину запрещено уворачиваться, малышке — останавливаться раньше времени."},
+{icon:"🫶",title:"Побег в объятия",detail:"10 минут тесных объятий. Телефоны в изгнании, весь мир подождёт."},
+{icon:"💆",title:"Королевский массаж",detail:"15 минут массажа при свечах. Малышка постарается, а Хозяин наслаждается."},
+{icon:"🕯️",title:"Свидание без свидетелей",detail:"Вечер вдвоём: приглушённый свет, любимая музыка и никаких посторонних дел."},
+{icon:"💃",title:"Танец на опасной дистанции",detail:"Один медленный танец так близко, что между вами не поместится даже секрет."},
+{icon:"😈",title:"Желание под грифом «секретно»",detail:"Одно особенное желание Хозяина — обсудить наедине и исполнить по взаимному согласию."},
+{icon:"👑",title:"Вечер абсолютного внимания",detail:"Сегодня всё внимание малышки — Хозяину. Никаких уведомлений, только вы двое."},
+{icon:"🎁",title:"Сюрприз без подсказок",detail:"Малышка сама придумает романтический сюрприз. Хозяину остаётся сладкое ожидание."}
+];
+function openSecret(){
+ const choices=document.getElementById('secret-choices');
+ choices.innerHTML=SECRET_WISHES.map((w,i)=>`<div class="secret-card" id="secret-card-${i}">
+ <button class="secret-reveal" type="button" onclick="revealSecret(${i})" aria-expanded="false"><span class="secret-icon">${w.icon}</span><span class="secret-card-title">${w.title}</span><small>Нажми, чтобы раскрыть 😈</small></button>
+ <div class="secret-card-back" hidden><p>${w.detail}</p><button type="button" onclick="chooseSecret(${i})">💋 Выбираю это</button></div>
+ </div>`).join('');
+ document.getElementById('secret-feedback').textContent='';
+ document.getElementById('secret-modal').classList.add('open');
+ document.body.style.overflow='hidden';
+}
+function revealSecret(i){
+ const card=document.getElementById('secret-card-'+i);
+ const back=card.querySelector('.secret-card-back');
+ const reveal=card.querySelector('.secret-reveal');
+ const show=back.hidden;
+ back.hidden=!show;reveal.setAttribute('aria-expanded',String(show));
+ card.classList.toggle('revealed',show);
+}
+function closeSecret(){document.getElementById('secret-modal').classList.remove('open');document.body.style.overflow='';}
+async function chooseSecret(i){
+ const wish=SECRET_WISHES[i].title;
+ const feedback=document.getElementById('secret-feedback');
+ const buttons=document.querySelectorAll('#secret-choices button');
+ buttons.forEach(b=>b.disabled=true);
+ feedback.textContent='Передаю секрет малышке… 💌';
+ try{
+  await sendToTelegram({items:[{name:'🔞 СЕКРЕТНЫЙ ВЫБОР ХОЗЯИНА: '+wish,price:'Особая награда 💋',quantity:1}],wish:'Хозяин заглянул на секретную территорию 😈',time:'',count:1,source:'ВЫБОР ХОЗЯИНА'});
+  feedback.textContent='👑 Принято! Малышка уже получила твой секретный выбор. Жди награды… 😈💋';
+ }catch(e){
+  console.error(e);feedback.textContent='Не удалось передать секрет. Попробуй ещё раз ❤️';
+  buttons.forEach(b=>b.disabled=false);
+ }
+}
 
 const ROULETTE_PRIZES=[
  {short:"10 💋",full:"10 поцелуев от малышки 💋"},
