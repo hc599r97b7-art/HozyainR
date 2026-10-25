@@ -32,6 +32,20 @@ label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right
 .price{color:#ffe0a8;font-size:14px;font-weight:800;margin:10px 0 12px}
 .info .heart{background:#f6e6e5;color:#631b33;border-color:#d3a9b0;font-weight:700}
 .info .add{background:#812640;border:1px solid #d4a66b;color:#fff8ed;font-weight:700}
+
+/* Рулетка желаний */
+#wish-roulette{margin:22px 0 26px;padding:20px 14px 22px;text-align:center;border-radius:22px;background:linear-gradient(155deg,#4d1329,#240912);border:1px solid #ba8751;box-shadow:0 8px 28px #10040a88}
+#wish-roulette h2{margin:0 0 8px;color:#ffe1a3;font-family:Georgia,serif}
+#wish-roulette .roulette-intro{font-size:14px;line-height:1.5;margin:0 0 14px;color:#f6d7d9}
+.roulette-stage{position:relative;width:min(290px,82vw);aspect-ratio:1;margin:8px auto 18px}
+.roulette-wheel{width:100%;height:100%;border-radius:50%;border:7px solid #e8bc73;box-shadow:0 0 0 3px #6f2a35,0 8px 24px #0903069c;background:conic-gradient(from -22.5deg,#7b1d39 0deg 45deg,#bb8055 45deg 90deg,#551127 90deg 135deg,#e0aa69 135deg 180deg,#7b1d39 180deg 225deg,#bb8055 225deg 270deg,#551127 270deg 315deg,#e0aa69 315deg 360deg);position:relative;transition:transform 4.8s cubic-bezier(.12,.75,.15,1);will-change:transform}
+.roulette-wheel::after{content:'👑';position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:52px;height:52px;border-radius:50%;background:#2a0918;border:3px solid #f4cf88;display:grid;place-items:center;font-size:27px;box-shadow:0 2px 9px #16020a}
+.roulette-wheel .slice-label{position:absolute;left:50%;top:50%;width:42%;height:23px;transform-origin:0 50%;font-size:11px;font-weight:800;color:#fff8e8;text-shadow:0 1px 3px #2d0818;display:flex;align-items:center;justify-content:flex-end;padding-right:4px;white-space:nowrap}
+.roulette-pointer{position:absolute;z-index:2;left:50%;top:-11px;transform:translateX(-50%);width:0;height:0;border-left:14px solid transparent;border-right:14px solid transparent;border-top:29px solid #fff0c5;filter:drop-shadow(0 2px 2px #16040a)}
+#spin-btn{width:min(290px,100%);font-size:16px;font-weight:800;background:linear-gradient(135deg,#a64a61,#71182e);border:1px solid #e8bc73;color:#fff4e4;padding:14px}
+#spin-btn:disabled{opacity:.6;cursor:wait}
+#roulette-result{min-height:52px;margin:15px auto 0;max-width:340px;color:#ffe5b3;font-size:17px;line-height:1.45;font-weight:700}
+@media(prefers-reduced-motion:reduce){.roulette-wheel{transition-duration:.15s}}
 </style>
 </head>
 <body>
@@ -39,6 +53,7 @@ label{display:block;margin-top:12px}#bottom{position:fixed;bottom:0;left:0;right
 <main>
 <h2>Что будем готовить?</h2>
 <div class="toolbar"><button onclick="showFavorites()">❤️ Любимое</button><button onclick="showCategory(0)">🍽 Всё меню</button><button onclick="surprise()">🎲 Удиви меня</button></div>
+<section id="wish-roulette" aria-label="Рулетка желаний"><h2>🎰 Рулетка желаний Хозяина</h2><p class="roulette-intro">Рома, испытай удачу! Какой сюрприз от малышки выпадет сегодня? 😈❤️</p><div class="roulette-stage"><div class="roulette-pointer"></div><div id="roulette-wheel" class="roulette-wheel" aria-hidden="true"></div></div><button id="spin-btn" type="button" onclick="spinRoulette()">💋 Испытать удачу</button><p id="roulette-result" role="status" aria-live="polite">Один поворот — одно желание 👑</p></section>
 <div id="cats"></div><div id="menu"></div>
 <section id="cart"><h2>🛒 Твоя корзина</h2><div id="items">Пока ничего не выбрано</div><h3 id="total">Выбрано: 0 позиций</h3>
 <label for="wish">💌 Пожелания</label><textarea id="wish" rows="3" placeholder="Побольше сыра, без лука..."></textarea>
@@ -83,6 +98,38 @@ function changeQty(id,delta){if(!cart[id])return;cart[id].qty+=delta;if(cart[id]
 function renderCart(){const entries=Object.values(cart);document.getElementById("items").innerHTML=entries.length?entries.map(d=>`<div class="line"><div><strong>${escapeHtml(d.name)}</strong><div class="price">${d.price}</div><div class="small">Количество: ${d.qty}</div></div><div><button onclick="changeQty('${d.id}',-1)">−</button> <button onclick="changeQty('${d.id}',1)">＋</button></div></div>`).join(""):"Пока ничего не выбрано";const count=entries.reduce((s,d)=>s+d.qty,0);document.getElementById("total").textContent=`Выбрано: ${count} порций`;document.getElementById("count").textContent=count;}
 function surprise(){const pool=allDishes.filter(d=>favorites.includes(d.id));if(!pool.length){alert("Сначала добавь несколько блюд в избранное ❤️");return;}const d=pool[Math.floor(Math.random()*pool.length)];renderMenu([d]);document.getElementById("menu").scrollIntoView({behavior:"smooth"});}
 async function order(){const entries=Object.values(cart);if(!entries.length){document.getElementById("result").textContent="Сначала добавь блюда в корзину ❤️";return;}const payload={items:entries.map(d=>({name:d.name,price:d.price,quantity:d.qty})),wish:document.getElementById("wish").value.trim(),time:document.getElementById("time").value.trim(),count:entries.reduce((s,d)=>s+d.qty,0),source:"ВЫБОР ХОЗЯИНА"};const btn=document.querySelector('#cart button[onclick="order()"]');btn.disabled=true;btn.textContent="Отправляю заказ…";try{const response=await fetch(WORKER_URL,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(payload)});if(!response.ok)throw new Error("HTTP "+response.status);document.getElementById("result").textContent="Заказ отправлен! ❤️";cart={};renderCart();}catch(e){document.getElementById("result").textContent="Не удалось отправить заказ. Попробуй ещё раз или напиши мне напрямую в Telegram.";console.error(e);}finally{btn.disabled=false;btn.textContent="Оформить заказ ❤️";}}
+
+const ROULETTE_PRIZES=[
+ {short:"10 💋",full:"10 поцелуев от малышки 💋"},
+ {short:"Массаж",full:"Массаж от малышки — 15 минут 👐"},
+ {short:"Объятия",full:"Долгие объятия без права отпускать ❤️"},
+ {short:"Завтрак",full:"Завтрак в постель от малышки 🍳"},
+ {short:"Желание",full:"Одно желание Хозяина (обсудим вдвоём) 👑"},
+ {short:"Без телеф.",full:"Вечер вдвоём без телефонов 🕯️"},
+ {short:"Танец",full:"Медленный танец с малышкой 💃"},
+ {short:"Сюрприз",full:"Секретный сюрприз от малышки 😈"}
+];
+let rouletteRotation=0,rouletteBusy=false;
+function initRoulette(){
+ const wheel=document.getElementById("roulette-wheel");
+ wheel.innerHTML=ROULETTE_PRIZES.map((p,i)=>`<span class="slice-label" style="transform:translate(0,-50%) rotate(${i*45-90}deg) translateX(15px)">${p.short}</span>`).join("");
+}
+function spinRoulette(){
+ if(rouletteBusy)return;
+ rouletteBusy=true;
+ const btn=document.getElementById("spin-btn"),result=document.getElementById("roulette-result"),wheel=document.getElementById("roulette-wheel");
+ btn.disabled=true;result.textContent="Колесо выбирает твой сюрприз… 💫";
+ const index=Math.floor(Math.random()*ROULETTE_PRIZES.length);
+ const previous=((rouletteRotation%360)+360)%360;
+ const desired=(360-index*45)%360;
+ const delta=(desired-previous+360)%360;
+ rouletteRotation+=360*5+delta;
+ wheel.style.transform=`rotate(${rouletteRotation}deg)`;
+ const finish=()=>{result.textContent=`👑 Хозяин, тебе выпало: ${ROULETTE_PRIZES[index].full}`;btn.disabled=false;rouletteBusy=false;};
+ if(window.matchMedia&&window.matchMedia('(prefers-reduced-motion: reduce)').matches){setTimeout(finish,180);}else{setTimeout(finish,4900);}
+}
+initRoulette();
+
 renderCats();showCategory(0);renderCart();
 </script>
 </body>
